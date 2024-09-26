@@ -33,4 +33,21 @@ const HomeScreen = () => {
 
         fetchProducts();
     }, []);
+
+    const addProduct = async () => {
+        try {
+            const newProductRef = await firestore().collection('products').add({
+                descricao: productsText,
+                codigo: 0,
+            });
+
+            const newProductId = newProductRef.id;
+
+            setProducts([...products, {id: newProductId, descricao: productsText, codigo: 0}]);
+
+            setProductsText('');
+        } catch (error) {
+            console.log('Error adding product: ', error);
+        }
+    };
 }
